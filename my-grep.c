@@ -10,6 +10,7 @@ int main(int argc, char *argv[]){
 
     /*Validate input arguments*/
     if (argc == 2){
+        printf("Stop typing with <ctrl + Z or D>\n");
         my_grep(stdin, argv[1]);
         /* read from stdin*/
 
@@ -39,22 +40,34 @@ void my_grep(FILE *stream, char* pattern){
     char *buffer;
     size_t bufsize = MAXLEN;
     ssize_t length;
+    char *match;
+
+    if(stream == stdin){
+        /*READ INTO TEMP FILE FROM STDIN AND THEN DO THE LOOP*/
+    }
     while (1){
+
         buffer = (char*)malloc(bufsize * sizeof(char));
         if( buffer == NULL){
             perror("Unable to allocate buffer");
             exit(1);
         }
         length = getline(&buffer, &bufsize, stream);
-        if (length < (ssize_t)0 && strcmp(buffer, "-1\n")){
+
+        if (length == -1){
+            /*EOF stops loop*/
             break;
         }
+        /*from: https://cboard.cprogramming.com/c-programming/168265-grep-program.html, if statement to remove excess newlines */   
         if (length > (ssize_t)0 && buffer[length - 1] == '\n'){
             buffer[--length] = '\0';
         }
-        
-        printf("%s\n",buffer);
+        match = strstr(buffer, pattern);
 
+        if (match != NULL){
+            printf("%s\n", buffer);
+        }
+        
         
     }
 }

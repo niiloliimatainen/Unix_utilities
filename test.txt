@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-moi kari botti
-asia juttu moi
-moikka möö
-
-asd
-=======
 Moi
 tässä
 taas
 testaillaan!
->>>>>>> 8ccc45bea55f8b52f7ec50abc942d67451a7623d
