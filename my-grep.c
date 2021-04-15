@@ -40,25 +40,21 @@ int main(int argc, char *argv[]){
 }
 
 void my_grep(FILE *stream, char* pattern){
-    char *buffer;
-    size_t bufsize = MAXLEN;
+    char *buffer = NULL;
+    size_t bufsize = 0;
     ssize_t length;
     char *match;
 
     while (1){
 
-        /*Allocate "unlimited" buffer of memory for getline*/
-
-        buffer = (char*)malloc(bufsize * sizeof(char));
-        if( buffer == NULL){
-            perror("Unable to allocate buffer");
-            exit(1);
-        }
+        /*Get line with getline()*/
 
         length = getline(&buffer, &bufsize, stream);
 
         /*If we reach EOF ->free(buffer)->break*/
+
         if (length == -1){
+            /*getline() reallocates the same heap over and over so one final free is enough.*/
             free(buffer);
             /*EOF stops loop*/
             break;
@@ -75,8 +71,8 @@ void my_grep(FILE *stream, char* pattern){
         if (match != NULL){
             printf("%s\n", buffer);
         }
-        /*Free after each line*/
-        free(buffer);
+        
+	
     }
 }
 
