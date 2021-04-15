@@ -7,7 +7,7 @@ void my_zip(FILE *stream);
 void write_stdout(int count, int tmp);
 
 
-/* This programs takes one or many files in and compress them to a single zip file */
+/* This programs takes one or many files in and compress them into a single zip file */
 int main(int argc, char *argv[]) {
      FILE *file;
     
@@ -53,7 +53,7 @@ void my_zip(FILE *stream) {
 
     /* Reading the file char by char */ 
     while ((ch = fgetc(stream)) != EOF) {
-        /* Counting sequential occurences of chars */
+        /* Counting sequential occurrences of chars */
         if (ch == tmp) {
             count++;
         
