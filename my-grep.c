@@ -70,9 +70,7 @@ void my_grep(FILE *stream, char* pattern){
         /*if match pointer != null ->print line*/
         if (match != NULL){
             printf("%s\n", buffer);
-        }
-        
-	
+        }	
     }
 }
 
