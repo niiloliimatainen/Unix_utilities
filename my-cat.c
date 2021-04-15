@@ -6,7 +6,7 @@
 void read_file(FILE *stream);
 
 /* This program takes file names as arguments and print out the contents of the files */
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
      FILE *file;
     
     if (argc == 1) {

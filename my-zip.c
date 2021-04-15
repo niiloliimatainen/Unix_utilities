@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
      FILE *file;
     
     if (argc == 1) {
@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
         exit(1);
     
     } else {
-        
+
         for (int i = 1; i < argc; i++) {
             if ((file = fopen(argv[i], "r")) == NULL) {
       
