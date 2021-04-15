@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
         for (int i = 1; i < argc; i++) {
 
             if ((file = fopen(argv[i], "r")) == NULL) {
-                printf("my-cat: cannot open file\n");
+                fprintf(stderr, "my-cat: cannot open file\n");
                 exit(1);
             } 
 
