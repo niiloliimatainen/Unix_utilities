@@ -11,22 +11,22 @@ void write_stdout(int count, int tmp);
 int main(int argc, char *argv[]) {
      FILE *file;
     
+    /* If there are no files, exit */
     if (argc == 1) {
         printf("my-zip: file1 [file2 ...]\n");
         exit(1);
     
     } else {
-
         for (int i = 1; i < argc; i++) {
             if ((file = fopen(argv[i], "r")) == NULL) {
                 fprintf(stderr, "Error: cannot open file '%s'\n", argv[i]);
 			    exit(1);
             } 
-
             my_zip(file);
             fclose(file);
         } 
     }
+    printf("\n");
     return 0;
 }
 
@@ -34,11 +34,10 @@ int main(int argc, char *argv[]) {
 /* Helper function to write the compressed content to the standard output */ 
 void write_stdout(int count, int tmp) {
     char ch = tmp;
-    /* If count is 0, char is a newline */
-    if (count != 0) {
-        fwrite(&count, 4, 1, stdout);
-    } 
-    fwrite(&ch, 1, 1, stdout);
+    printf("%d", count);
+    printf("%c", ch);
+   /* fwrite(&count, 4, 1, stdout);
+    fwrite(&ch, 1, 1, stdout);*/
 }
 
 
@@ -54,16 +53,10 @@ void my_zip(FILE *stream) {
     /* Reading the file char by char */ 
     while ((ch = fgetc(stream)) != EOF) {
         
-        
         /* Counting sequential occurrences of chars */
         if (ch == tmp) {
             count++;
-
-        } else if (ch == '\n') {
-            write_stdout(count, tmp);
-            tmp = ch;
-            count = 0;
-
+        
         /* When char changes, send the results to write_stdout() */
         } else {
             write_stdout(count, tmp);
@@ -71,7 +64,5 @@ void my_zip(FILE *stream) {
             count = 1;
         }
     }
-    /* Writing a newline to the end of the compressed content of the file */
-    write_stdout(0, '\n');
 }
 
