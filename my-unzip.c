@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void unzip(FILE *stream);
 
@@ -19,6 +20,25 @@ int main(int argc, char **argv) {
 
     } else {
         for (int i = 1; i < argc; i++) {
+			/*https://stackoverflow.com/questions/5297248/how-to-compare-last-n-characters-of-a-string-to-another-string-in-c*/
+			/*Validate the filetype to be .z and not anything else*/
+
+			int len = strlen(argv[i]);
+			/*Filename cannot be less than 3 characters long f.ex: A.z*/
+
+			if (len < 3){
+				printf("Error: incorrect filetype!\n");
+				exit(1);
+			}
+
+			char *end = &argv[i][len-2];
+			/*compare last 2 characters */
+
+			if(strcmp(".z", end) != 0){
+				printf("Error: incorrect filetype!\n");
+				exit(1);
+			}
+
         	if ((file = fopen(argv[i], "rb")) == NULL) {
         		fprintf(stderr, "Error: cannot open file '%s'\n", argv[i]);
       	        exit(1);
