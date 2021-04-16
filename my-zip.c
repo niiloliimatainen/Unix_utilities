@@ -34,10 +34,10 @@ int main(int argc, char *argv[]) {
 /* Helper function to write the compressed content to the standard output */ 
 void write_stdout(int count, int tmp) {
     char ch = tmp;
-    printf("%d", count);
-    printf("%c", ch);
-   /* fwrite(&count, 4, 1, stdout);
-    fwrite(&ch, 1, 1, stdout);*/
+
+    /* Format: 4-byte integer and single character */
+    fwrite(&count, 4, 1, stdout);
+    fwrite(&ch, 1, 1, stdout);
 }
 
 
