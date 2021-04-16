@@ -3,6 +3,13 @@
 
 void unzip(FILE *stream);
 
+/*struct which has the "z" format (4 byte integer and 1 byte unsigned char)*/
+typedef struct Zipchunk {
+	int n;
+	unsigned char c;
+}Zipchunk;
+
+
 int main(int argc, char **argv) {
      FILE *file;
     
@@ -10,31 +17,53 @@ int main(int argc, char **argv) {
         printf("my-unzip: file1 [file2 ...]\n");
         exit(1);
 
-    /*} else {
+    } else {
         for (int i = 1; i < argc; i++) {
-            if ((file = fopen(argv[i], "r")) == NULL) {
-                exit(1);
-            } 
-            un_zip();
-
-      
-        } 
-    */
-    }else{
-        file = fopen("test.txt", "r");
-        unzip(file);
-    }
-return 0;  
-    
-   
+        	if ((file = fopen(argv[i], "rb")) == NULL) {
+        		fprintf(stderr, "Error: cannot open file\n");
+      	        exit(1);
+        	}
+			unzip(file);
+			fclose(file);
+    	}
+    }  
+	printf("\n");
+	return 0;  	
 }
 
+
 void unzip(FILE *stream){
-    char *buffer = NULL;
-    size_t bufsize= 5;
-    int x;
-    
-    while ( x =fread(&buffer, bufsize, 1, stream) > 0){
-        printf("%c\n", buffer);
+	/*Integers which hold fread return values for loop condition*/
+	int i_z, c_z;
+
+	/*Function reads one number/character pair at a time, until it has nothing to read.*/
+
+	while (1){
+
+		/* Allocate memory in which we read from file*/
+		Zipchunk *z = malloc(sizeof(Zipchunk));
+
+		/*Check failed allocation*/
+		if(z == NULL) {
+			fprintf(stderr, "ERROR: could not allocate memory\n");
+			exit (-1);
+		}
+
+		/*Read first the integer and then the character from file to zipchunk values*/
+		i_z = fread(&z->n, sizeof(z->n), 1 , stream);
+		c_z = fread(&z->c, sizeof(z->c), 1, stream);
+
+		/* If we get both values, we continue, else we are done!*/
+		if (i_z != 1 || c_z != 1) {
+			free(z);
+			break;
+		}
+		/*Write n amount of times letter c to the output stream*/
+		for(int i =0; i < z->n; i++) {
+			printf("%c",z->c);
+		}
+		free(z);
     }
+    
+   	 
 }
