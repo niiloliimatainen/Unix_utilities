@@ -7,7 +7,7 @@ void unzip(FILE *stream);
 typedef struct Zipchunk {
 	int n;
 	unsigned char c;
-}Zipchunk;
+} Zipchunk;
 
 
 int main(int argc, char **argv) {
@@ -63,7 +63,5 @@ void unzip(FILE *stream){
 			printf("%c",z->c);
 		}
 		free(z);
-    }
-    
-   	 
+    } 
 }

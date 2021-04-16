@@ -6,6 +6,7 @@
 
 void my_grep(FILE *stream, char* pattern);
 
+
 int main(int argc, char *argv[]){
     FILE *input_f;
 
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 }
+
 
 void my_grep(FILE *stream, char* pattern){
     char *buffer = NULL;

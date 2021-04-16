@@ -5,6 +5,7 @@
 
 void read_file(FILE *stream);
 
+
 /* This program takes file names as arguments and print out the contents of the files */
 int main(int argc, char *argv[]) {
      FILE *file;
@@ -19,13 +20,13 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "my-cat: cannot open file\n");
                 exit(1);
             } 
-
             read_file(file);
             fclose(file);
         } 
     }
     return 0;
 }
+
 
 /* Helper function to print out all the lines in file */
 void read_file(FILE *stream) {
