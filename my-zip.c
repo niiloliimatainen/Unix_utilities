@@ -7,7 +7,7 @@ void my_zip(FILE *stream);
 void write_stdout(int count, int tmp);
 
 
-/* This programs takes one or many files in and compress them to a single zip file */
+/* This programs take one or many files in and compress them into a single zip file */
 int main(int argc, char *argv[]) {
      FILE *file;
     
@@ -26,10 +26,7 @@ int main(int argc, char *argv[]) {
             my_zip(file);
             fclose(file);
         } 
-
-
     }
-    printf("\n");
     return 0;
 }
 
@@ -37,7 +34,10 @@ int main(int argc, char *argv[]) {
 /* Helper function to write the compressed content to the standard output */ 
 void write_stdout(int count, int tmp) {
     char ch = tmp;
-    fwrite(&count, 4, 1, stdout);
+    /* If count is 0, char is a newline */
+    if (count != 0) {
+        fwrite(&count, 4, 1, stdout);
+    } 
     fwrite(&ch, 1, 1, stdout);
 }
 
@@ -53,10 +53,17 @@ void my_zip(FILE *stream) {
 
     /* Reading the file char by char */ 
     while ((ch = fgetc(stream)) != EOF) {
-        /* Counting sequential occurences of chars */
+        
+        
+        /* Counting sequential occurrences of chars */
         if (ch == tmp) {
             count++;
-        
+
+        } else if (ch == '\n') {
+            write_stdout(count, tmp);
+            tmp = ch;
+            count = 0;
+
         /* When char changes, send the results to write_stdout() */
         } else {
             write_stdout(count, tmp);
@@ -64,7 +71,7 @@ void my_zip(FILE *stream) {
             count = 1;
         }
     }
-    /* Sending last char's results to write_stdout() */
-    write_stdout(count, tmp);
+    /* Writing a newline to the end of the compressed content of the file */
+    write_stdout(0, '\n');
 }
 
