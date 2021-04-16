@@ -20,14 +20,14 @@ int main(int argc, char **argv) {
     } else {
         for (int i = 1; i < argc; i++) {
         	if ((file = fopen(argv[i], "rb")) == NULL) {
-        		fprintf(stderr, "Error: cannot open file\n");
+        		fprintf(stderr, "Error: cannot open file '%s'\n", argv[i]);
       	        exit(1);
         	}
 			unzip(file);
 			fclose(file);
+            printf("\n");
     	}
     }  
-	printf("\n");
 	return 0;  	
 }
 

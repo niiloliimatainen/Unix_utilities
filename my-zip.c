@@ -52,7 +52,6 @@ void my_zip(FILE *stream) {
 
     /* Reading the file char by char */ 
     while ((ch = fgetc(stream)) != EOF) {
-        
         /* Counting sequential occurrences of chars */
         if (ch == tmp) {
             count++;
